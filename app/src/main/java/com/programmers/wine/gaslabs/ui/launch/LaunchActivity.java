@@ -1,16 +1,23 @@
-package com.programmers.wine.gaslabs;
+package com.programmers.wine.gaslabs.ui.launch;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class LaunchActivity extends AppCompatActivity {
+import com.programmers.wine.gaslabs.R;
+import com.programmers.wine.gaslabs.util.BaseActivity;
+
+public class LaunchActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
+
+        // set up toolbar
+        initToolbar();
     }
 
     @Override
@@ -33,5 +40,15 @@ public class LaunchActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.app_name);
+            actionBar.setIcon(R.mipmap.ic_launcher);
+        }
     }
 }
