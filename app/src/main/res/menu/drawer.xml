@@ -1,0 +1,32 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.programmers.wine.gaslabs.ui.home.HomeActivity">
+
+    <group
+        android:id="@+id/nav_body"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/drawer_item_panel"
+            android:title="@string/drawer_item_panel" />
+        <item
+            android:id="@+id/drawer_item_service"
+            android:title="@string/drawer_item_service" />
+        <item
+            android:id="@+id/drawer_item_bluethooth"
+            android:title="@string/drawer_item_bluetooth" />
+
+    </group>
+
+    <group android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/drawer_sub_item_about"
+            android:title="@string/drawer_sub_item_about" />
+        <item
+            android:id="@+id/drawer_sub_item_help"
+            android:title="@string/drawer_sub_item_help" />
+
+    </group>
+
+</menu>

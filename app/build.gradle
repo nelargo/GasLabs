@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.programmers.wine.gaslabs"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -38,4 +38,6 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'de.psdev.licensesdialog:licensesdialog:1.8.0'
+    compile 'com.facebook.shimmer:shimmer:0.1.0@aar'
+
 }
