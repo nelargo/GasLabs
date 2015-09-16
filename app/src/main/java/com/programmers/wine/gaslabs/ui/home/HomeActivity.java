@@ -1,5 +1,6 @@
 package com.programmers.wine.gaslabs.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 
 import com.orhanobut.logger.Logger;
 import com.programmers.wine.gaslabs.R;
+import com.programmers.wine.gaslabs.ui.about.AboutActivity;
 import com.programmers.wine.gaslabs.ui.bluetooth.BluetoothFragment;
 import com.programmers.wine.gaslabs.ui.panel.PanelFragment;
 import com.programmers.wine.gaslabs.ui.service.ServiceFragment;
@@ -92,6 +94,10 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
             case R.id.drawer_item_bluethooth:
                 fragmentTransaction.replace(R.id.content, BluetoothFragment.newInstance(), TAG_FRAGMENT_BLUETOOTH);
+                break;
+            case R.id.drawer_sub_item_about:
+                startActivity(new Intent(this, AboutActivity.class));
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 break;
         }
         fragmentTransaction.commit();

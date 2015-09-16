@@ -3,6 +3,7 @@
     <!-- Titles App & Activities -->
     <string name="app_name">GasLabs</string>
     <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_about">AboutActivity</string>
 
     <!-- Menu -->
     <string name="action_settings">Settings</string>
@@ -22,9 +23,11 @@
 
     <!-- Feedback -->
     <string name="snack_bar_option_already_selected">This option is already selected</string>
+    <string name="dialog_licenses_title">Open source libraries used by GasLabs</string>
 
     <!-- dummy -->
     <string name="dummy_email">gas@gaslabs.com</string>
     <string name="dummy_username">Gas Labs</string>
+
 
 </resources>

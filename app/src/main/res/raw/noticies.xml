@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<notices>
+    <!-- OkHttp -->
+    <notice>
+        <name>OkHttp</name>
+        <url>http://square.github.io/okhttp/</url>
+        <copyright>Copyright 2014 Square, Inc.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <!-- Retrofit -->
+    <notice>
+        <name>Retrofit</name>
+        <url>http://square.github.io/retrofit/</url>
+        <copyright>Copyright 2013 Square, Inc.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <!-- Glide -->
+    <notice>
+        <name>Retrofit</name>
+        <url>https://github.com/bumptech/glide</url>
+        <copyright>Copyright 2014 Google, Inc. All rights reserved.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <!-- Material Dialogs -->
+    <notice>
+        <name>Material Dialogs</name>
+        <url>https://github.com/afollestad/material-dialogs</url>
+        <copyright>Copyright (c) 2015 Aidan Michael Follestad.</copyright>
+        <license>MIT License</license>
+    </notice>
+
+
+    <!-- Circle Image View -->
+    <notice>
+        <name>CircleImageView</name>
+        <url>https://github.com/hdodenhof/CircleImageView</url>
+        <copyright>Copyright 2014 Henning Dodenhof.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <!-- Merlin -->
+    <notice>
+        <name>Merlin</name>
+        <url>https://github.com/novoda/merlin</url>
+        <copyright>Copyright 2014 Novoda Ltd.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <!-- Load Toast -->
+    <notice>
+        <name>Load Toast</name>
+        <url>https://github.com/code-mc/loadtoast</url>
+        <copyright>Copyright 2015 CodeCrafted. http://codecrafted.net/.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <!-- Hawk -->
+    <notice>
+        <name>Hawk</name>
+        <url>https://github.com/orhanobut/hawk</url>
+        <copyright>Copyright 2015 Orhan Obut.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <!-- Hawk -->
+    <notice>
+        <name>Hawk</name>
+        <url>https://github.com/orhanobut/hawk</url>
+        <copyright>Copyright 2015 Orhan Obut.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <!-- Logger -->
+    <notice>
+        <name>logger</name>
+        <url>https://github.com/orhanobut/logger</url>
+        <copyright>Copyright 2015 Orhan Obut.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <!-- Logger -->
+    <notice>
+        <name>logger</name>
+        <url>https://github.com/orhanobut/logger</url>
+        <copyright>Copyright 2015 Orhan Obut.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <!-- Calligraphy -->
+    <notice>
+        <name>Calligraphy</name>
+        <url>https://github.com/chrisjenx/Calligraphy</url>
+        <copyright>Copyright 2013 Christopher Jenkins.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <!-- Butter Knife -->
+    <notice>
+        <name>Butter Knife</name>
+        <url>https://github.com/JakeWharton/butterknife</url>
+        <copyright>Copyright 2013 Jake Wharton.</copyright>
+        <license>Apache Software License 2.0</license>
+    </notice>
+
+    <!-- Shimmer for Android -->
+    <notice>
+        <name>Shimmer for Android</name>
+        <url>https://github.com/facebook/shimmer-android</url>
+        <copyright>Copyright (c) 2015, Facebook, Inc. All rights.</copyright>
+        <license>BSD 2-Clause License</license>
+    </notice>
+
+
+</notices>
