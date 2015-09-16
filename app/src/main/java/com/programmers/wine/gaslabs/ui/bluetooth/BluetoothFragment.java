@@ -1,24 +1,24 @@
-package com.programmers.wine.gaslabs.ui.home;
+package com.programmers.wine.gaslabs.ui.bluetooth;
 
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.programmers.wine.gaslabs.R;
+import com.programmers.wine.gaslabs.util.BaseFragment;
 
-public class PanelFragment extends Fragment {
+public class BluetoothFragment extends BaseFragment {
 
-    public static PanelFragment newInstance() {
-        PanelFragment fragment = new PanelFragment();
+    public static BluetoothFragment newInstance() {
+        BluetoothFragment fragment = new BluetoothFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public PanelFragment() {
+    public BluetoothFragment() {
         // Required empty public constructor
     }
 
@@ -31,7 +31,7 @@ public class PanelFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_panel, container, false);
+        return inflater.inflate(R.layout.fragment_service, container, false);
     }
 
 

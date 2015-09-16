@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.programmers.wine.gaslabs.ui.panel.PanelFragment">
+    tools:context="com.programmers.wine.gaslabs.ui.bluetooth.BluetoothFragment">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="@string/drawer_item_panel"
+        android:text="@string/drawer_item_bluetooth"
         android:textSize="@dimen/text_size_titan" />
 
 </LinearLayout>
