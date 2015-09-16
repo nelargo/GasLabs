@@ -41,11 +41,9 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        Logger.d("Testing logger");
-
         if (savedInstanceState != null && savedInstanceState.containsKey(SAVED_NAV_ITEM_ID)) {
             if (GlobalData.isOnDebugMode()) {
-                Logger.d("savedInstanceState != null");
+                Logger.d("Nav item id was recovered");
             }
             navItemId = savedInstanceState.getInt(SAVED_NAV_ITEM_ID);
         }
@@ -64,21 +62,17 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
-        navItemId = menuItem.getItemId();
-
-        if (!menuItem.isChecked()) {
-            menuItem.setChecked(true);
-            // show feedback to the user
-            Snackbar.make(drawerLayout, menuItem.getTitle(), Snackbar.LENGTH_LONG).show();
-            // load content
-            setContent(navItemId);
-            drawerLayout.closeDrawers();
-        } else {
-            // show feedback to the user. Option already selected.
+        if (navItemId == menuItem.getItemId()) {
             Snackbar.make(drawerLayout, R.string.snack_bar_option_already_selected, Snackbar.LENGTH_SHORT).show();
+            return false;
+        } else {
+            navItemId = menuItem.getItemId();
+            Snackbar.make(drawerLayout, menuItem.getTitle(), Snackbar.LENGTH_LONG).show();
+            menuItem.setChecked(true);
+            drawerLayout.closeDrawers();
+            setContent(navItemId);
+            return true;
         }
-
-        return true;
     }
 
     public DrawerLayout getDrawerLayout() {
@@ -101,5 +95,14 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
         }
         fragmentTransaction.commit();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if (GlobalData.isOnDebugMode()) {
+            Logger.d("Save id of navigation item selected");
+        }
+        outState.putInt(SAVED_NAV_ITEM_ID, navItemId);
+        super.onSaveInstanceState(outState);
     }
 }

@@ -4,6 +4,7 @@ package com.programmers.wine.gaslabs.ui.panel;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.programmers.wine.gaslabs.ui.home.HomeActivity;
 import com.programmers.wine.gaslabs.util.BaseFragment;
 
 public class PanelFragment extends BaseFragment {
+    protected static final int RES_TITLE = R.string.drawer_item_panel;
 
     public static PanelFragment newInstance() {
         PanelFragment fragment = new PanelFragment();
@@ -66,21 +68,36 @@ public class PanelFragment extends BaseFragment {
                 }
                 return true;
             case R.id.action_panel:
-                Toast.makeText(getActivity(), "Panel RLZ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.action_panel, Toast.LENGTH_SHORT).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onAnimationStarted() {
+        super.onAnimationStarted();
+        if (getActivity() instanceof HomeActivity) {
+            HomeActivity homeActivity = (HomeActivity) getActivity();
+            if (homeActivity.getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
+                homeActivity.getDrawerLayout().closeDrawers();
+            }
+        }
+    }
+
     private void initToolbar(View root) {
         Toolbar toolbar = (Toolbar) root.findViewById(R.id.toolbar);
         if (getActivity() instanceof AppCompatActivity) {
-            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            HomeActivity homeActivity = ((HomeActivity) getActivity());
+            homeActivity.setSupportActionBar(toolbar);
+            ActionBar actionBar = homeActivity.getSupportActionBar();
             if (actionBar != null) {
-                actionBar.setTitle(R.string.app_name);
+                actionBar.setTitle(RES_TITLE);
                 actionBar.setIcon(R.mipmap.ic_launcher);
-                actionBar.setDisplayHomeAsUpEnabled(true);
+
+                ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(getActivity(), homeActivity.getDrawerLayout(), toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
+                homeActivity.getDrawerLayout().setDrawerListener(actionBarDrawerToggle);
+                actionBarDrawerToggle.syncState();
             }
 
         }

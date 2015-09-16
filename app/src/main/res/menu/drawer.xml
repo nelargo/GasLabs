@@ -8,6 +8,7 @@
 
         <item
             android:id="@+id/drawer_item_panel"
+            android:checked="true"
             android:title="@string/drawer_item_panel" />
         <item
             android:id="@+id/drawer_item_service"
@@ -18,7 +19,9 @@
 
     </group>
 
-    <group android:checkableBehavior="none">
+    <group
+        android:id="@+id/nav_footer"
+        android:checkableBehavior="none">
 
         <item
             android:id="@+id/drawer_sub_item_about"

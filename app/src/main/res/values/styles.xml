@@ -6,15 +6,14 @@
     </style>
 
     <!-- Base application theme pre lollipop. -->
-    <!--
-        <item name="android:textColorPrimary">@color/colorPrimaryText</item>
-        <item name="android:textColorSecondary">@color/colorSecondaryText</item>
-        <item name="android:textColorTertiary">@color/colorTertiaryText</item>
-    -->
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!-- Text color -->
+        <item name="android:textColorPrimary">@color/colorPrimaryText</item>
+        <item name="android:textColorSecondary">@color/colorPrimaryText</item>
+        <item name="android:textColorTertiary">@color/colorTertiaryText</item>
     </style>
 
     <!-- Tab layout -->

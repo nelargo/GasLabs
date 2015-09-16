@@ -7,8 +7,12 @@
     <!-- Menu -->
     <string name="action_settings">Settings</string>
     <string name="action_panel">Panel</string>
+    <string name="action_service">Service</string>
+    <string name="action_bluetooth">Bluetooth</string>
 
-    <!-- Navigation view items -->
+    <!-- Navigation view & Navigation drawer -->
+    <string name="nav_drawer_open">Open drawer</string>
+    <string name="nav_drawer_close">Close drawer</string>
     <string name="drawer_item_panel">Panel</string>
     <string name="drawer_item_service">Service</string>
     <string name="drawer_item_bluetooth">Bluetooth</string>
@@ -22,8 +26,5 @@
     <!-- dummy -->
     <string name="dummy_email">gas@gaslabs.com</string>
     <string name="dummy_username">Gas Labs</string>
-
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
