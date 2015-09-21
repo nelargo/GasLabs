@@ -13,7 +13,7 @@ import com.programmers.wine.gaslabs.util.BaseActivity;
 public class LaunchActivity extends BaseActivity {
     // private static final String TAG_FRAGMENT_LOG_IN = "TagFragmentLogIn";
     private static final String TAG_FRAGMENT_SPLASH = "TagFragmentLogIn";
-    private static final int SPLASH_DISPLAY_LENGTH = 2000;
+    private static final int SPLASH_DISPLAY_LENGTH = 700;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

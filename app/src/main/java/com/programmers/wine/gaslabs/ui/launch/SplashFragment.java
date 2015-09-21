@@ -40,6 +40,7 @@ public class SplashFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ShimmerFrameLayout container = (ShimmerFrameLayout) view.findViewById(R.id.shimmer_view_container);
+        container.setDuration(700);
         container.startShimmerAnimation();
 
     }

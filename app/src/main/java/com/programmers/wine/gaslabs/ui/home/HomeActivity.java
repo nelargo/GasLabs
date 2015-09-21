@@ -64,16 +64,29 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
-        if (navItemId == menuItem.getItemId()) {
-            Snackbar.make(drawerLayout, R.string.snack_bar_option_already_selected, Snackbar.LENGTH_SHORT).show();
-            return false;
-        } else {
-            navItemId = menuItem.getItemId();
-            Snackbar.make(drawerLayout, menuItem.getTitle(), Snackbar.LENGTH_LONG).show();
-            menuItem.setChecked(true);
-            drawerLayout.closeDrawers();
-            setContent(navItemId);
-            return true;
+        switch (menuItem.getItemId()) {
+            case R.id.drawer_sub_item_about:
+                // show about activity
+                startActivity(new Intent(this, AboutActivity.class));
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                return true;
+            case R.id.drawer_sub_item_help:
+                // only show feedback to the user
+                Snackbar.make(drawerLayout, R.string.drawer_sub_item_help, Snackbar.LENGTH_SHORT).show();
+                return true;
+            default:
+                // load content in the fragment container of home activity
+                if (navItemId == menuItem.getItemId()) {
+                    Snackbar.make(drawerLayout, R.string.snack_bar_option_already_selected, Snackbar.LENGTH_SHORT).show();
+                    return false;
+                } else {
+                    navItemId = menuItem.getItemId();
+                    Snackbar.make(drawerLayout, menuItem.getTitle(), Snackbar.LENGTH_LONG).show();
+                    menuItem.setChecked(true);
+                    drawerLayout.closeDrawers();
+                    setContent(navItemId);
+                    return true;
+                }
         }
     }
 
@@ -94,10 +107,6 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
             case R.id.drawer_item_bluethooth:
                 fragmentTransaction.replace(R.id.content, BluetoothFragment.newInstance(), TAG_FRAGMENT_BLUETOOTH);
-                break;
-            case R.id.drawer_sub_item_about:
-                startActivity(new Intent(this, AboutActivity.class));
-                overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 break;
         }
         fragmentTransaction.commit();
