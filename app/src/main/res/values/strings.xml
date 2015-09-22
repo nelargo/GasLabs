@@ -4,12 +4,15 @@
     <string name="app_name">GasLabs</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_about">Acerca de GasLabs</string>
+    <string name="title_activity_service">Service (Lab)</string>
 
     <!-- Menu -->
     <string name="action_settings">Settings</string>
     <string name="action_panel">Panel</string>
     <string name="action_service">Service</string>
     <string name="action_bluetooth">Bluetooth</string>
+    <string name="action_start_service">Start service</string>
+    <string name="action_stop_service">Stop service</string>
 
     <!-- Navigation view & Navigation drawer -->
     <string name="nav_drawer_open">Open drawer</string>
@@ -27,6 +30,9 @@
     <string name="about_item_policies_title">Política de privacidad</string>
     <string name="about_item_terms_title">Condiciones del servicio</string>
     <string name="about_item_licences_subtitle">Detalles de la licencia de software de código abierto</string>
+
+    <!-- Service -->
+    <string name="service_goto_service">Go to service</string>
 
     <!-- Feedback -->
     <string name="snack_bar_option_already_selected">This option is already selected</string>

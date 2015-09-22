@@ -7,10 +7,14 @@
     <color name="colorSecondary">#FFFFFF</color>
     <color name="colorTertiary">#727272</color>
 
+    <!-- Text color -->
     <color name="colorPrimaryText">#FFFFFF</color>
     <color name="colorSecondaryText">#212121</color>
     <color name="colorTertiaryText">#727272</color>
 
     <color name="colorIcons">#FFFFFF</color>
     <color name="colorDivider">#B6B6B6</color>
+
+    <!-- Buttons -->
+    <color name="colorDefaultButton">#009688</color>
 </resources>

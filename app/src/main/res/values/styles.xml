@@ -26,4 +26,14 @@
         <item name="textAllCaps">false</item>
     </style>
 
+    <style name="PrimaryButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:background">@drawable/btn_primary</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
+    </style>
+
 </resources>

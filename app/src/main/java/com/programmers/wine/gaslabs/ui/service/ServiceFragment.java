@@ -1,6 +1,7 @@
 package com.programmers.wine.gaslabs.ui.service;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
@@ -13,7 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.Button;
 
 import com.programmers.wine.gaslabs.R;
 import com.programmers.wine.gaslabs.ui.home.HomeActivity;
@@ -21,6 +22,7 @@ import com.programmers.wine.gaslabs.util.BaseFragment;
 
 public class ServiceFragment extends BaseFragment {
     protected static final int RES_TITLE = R.string.drawer_item_service;
+    private Button serviceBtn;
 
     public static ServiceFragment newInstance() {
         ServiceFragment fragment = new ServiceFragment();
@@ -50,6 +52,14 @@ public class ServiceFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initToolbar(view);
+
+        serviceBtn = (Button) view.findViewById(R.id.btn_service);
+        serviceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showServiceActivity();
+            }
+        });
     }
 
     @Override
@@ -67,8 +77,8 @@ public class ServiceFragment extends BaseFragment {
                     ((HomeActivity) getActivity()).getDrawerLayout().openDrawer(GravityCompat.START);
                 }
                 return true;
-            case R.id.action_service:
-                Toast.makeText(getActivity(), R.string.action_service, Toast.LENGTH_SHORT).show();
+            case R.id.action_start_service:
+                showServiceActivity();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -101,5 +111,11 @@ public class ServiceFragment extends BaseFragment {
             }
 
         }
+    }
+
+    private void showServiceActivity() {
+        Intent intentServiceActivity = new Intent(getActivity(), ServiceActivity.class);
+        startActivity(intentServiceActivity);
+        getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
     }
 }

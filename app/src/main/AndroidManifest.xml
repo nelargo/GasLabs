@@ -36,6 +36,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.programmers.wine.gaslabs.ui.home.HomeActivity" />
         </activity>
+        <activity
+            android:name=".ui.service.ServiceActivity"
+            android:label="@string/title_activity_service"
+            android:parentActivityName=".ui.home.HomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.programmers.wine.gaslabs.ui.home.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>
