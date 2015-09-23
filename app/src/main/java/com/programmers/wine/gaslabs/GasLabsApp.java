@@ -2,7 +2,6 @@ package com.programmers.wine.gaslabs;
 
 import android.app.Application;
 
-import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -32,7 +31,7 @@ public class GasLabsApp extends Application {
     protected void initLogger() {
         Logger
                 .init(TAG_APP)
-                        // .hideThreadInfo()
-                .setLogLevel(LogLevel.FULL);
+                .setMethodCount(0)
+                .hideThreadInfo();
     }
 }

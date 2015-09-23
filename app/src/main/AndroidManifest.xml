@@ -44,6 +44,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.programmers.wine.gaslabs.ui.home.HomeActivity" />
         </activity>
+
+        <service
+            android:name=".ui.service.GasLabsService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".ui.service.LocalService"
+            android:enabled="true"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

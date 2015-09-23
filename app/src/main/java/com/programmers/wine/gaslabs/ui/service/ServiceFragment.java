@@ -19,6 +19,7 @@ import android.widget.Button;
 import com.programmers.wine.gaslabs.R;
 import com.programmers.wine.gaslabs.ui.home.HomeActivity;
 import com.programmers.wine.gaslabs.util.BaseFragment;
+import com.programmers.wine.gaslabs.util.Utils;
 
 public class ServiceFragment extends BaseFragment {
     protected static final int RES_TITLE = R.string.drawer_item_service;
@@ -54,6 +55,7 @@ public class ServiceFragment extends BaseFragment {
         initToolbar(view);
 
         serviceBtn = (Button) view.findViewById(R.id.btn_service);
+        Utils.setColorButton(getActivity(), serviceBtn, R.color.colorButtonPrimary, R.drawable.btn_primary);
         serviceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

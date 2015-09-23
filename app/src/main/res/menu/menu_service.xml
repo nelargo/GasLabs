@@ -2,16 +2,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.programmers.wine.gaslabs.ui.service.ServiceActivity">
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_start_service"
-        android:orderInCategory="200"
+        android:orderInCategory="100"
         android:title="@string/action_start_service"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_get_from_bound_service"
+        android:orderInCategory="200"
+        android:title="@string/action_get_from_bound_service"
         app:showAsAction="never" />
 
 </menu>

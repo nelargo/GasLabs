@@ -13,6 +13,7 @@
     <string name="action_bluetooth">Bluetooth</string>
     <string name="action_start_service">Start service</string>
     <string name="action_stop_service">Stop service</string>
+    <string name="action_get_from_bound_service">Get value</string>
 
     <!-- Navigation view & Navigation drawer -->
     <string name="nav_drawer_open">Open drawer</string>

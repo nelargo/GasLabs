@@ -16,5 +16,7 @@
     <color name="colorDivider">#B6B6B6</color>
 
     <!-- Buttons -->
-    <color name="colorDefaultButton">#009688</color>
+    <color name="colorButtonPrimary">#009688</color>
+    <color name="colorButtonPrimaryOff">#40009688</color>
+    <color name="colorButtonSecondary">#e02626</color>
 </resources>

@@ -14,9 +14,9 @@
 
     <gradient
         android:angle="180"
-        android:centerColor="@color/colorDefaultButton"
-        android:endColor="@color/colorDefaultButton"
-        android:startColor="@color/colorDefaultButton"
+        android:centerColor="@color/colorButtonPrimaryOff"
+        android:endColor="@color/colorButtonPrimaryOff"
+        android:startColor="@color/colorButtonPrimaryOff"
         android:type="linear" />
 
 </shape>
