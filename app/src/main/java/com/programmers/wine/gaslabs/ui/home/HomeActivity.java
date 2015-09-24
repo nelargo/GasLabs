@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 import com.programmers.wine.gaslabs.R;
@@ -17,6 +19,8 @@ import com.programmers.wine.gaslabs.ui.panel.PanelFragment;
 import com.programmers.wine.gaslabs.ui.service.ServiceFragment;
 import com.programmers.wine.gaslabs.util.BaseActivity;
 import com.programmers.wine.gaslabs.util.GlobalData;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     /**
@@ -40,6 +44,14 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
+
+        CircleImageView circleImageView = (CircleImageView) navigationView.findViewById(R.id.avatar);
+        circleImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getBaseContext(), "Potato", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         navigationView.setNavigationItemSelectedListener(this);
 

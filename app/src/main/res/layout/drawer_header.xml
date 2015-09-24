@@ -6,7 +6,7 @@
     android:paddingTop="@dimen/status_bar_height"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <com.afollestad.materialdialogs.internal.CircleView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar"
         android:layout_width="64dp"
         android:layout_height="64dp"
