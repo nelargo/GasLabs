@@ -15,11 +15,32 @@
         app:layout_scrollFlags="scroll|enterAlways"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/drawer_item_bluetooth"
-        android:textSize="@dimen/text_size_titan" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!--TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/drawer_item_bluetooth"
+            android:textSize="@dimen/text_size_titan" /-->
+
+        <Button
+            android:id="@+id/btn_bluetooth_control"
+            style="@style/PrimaryButton"
+            android:layout_marginTop="16dp"
+            android:text="@string/action_bluetooth_enable" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="16dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
 
 </LinearLayout>
