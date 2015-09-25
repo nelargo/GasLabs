@@ -31,7 +31,7 @@ public class GasLabsApp extends Application {
     protected void initLogger() {
         Logger
                 .init(TAG_APP)
-                .setMethodCount(0)
+                //.setMethodCount(0)
                 .hideThreadInfo();
     }
 }

@@ -126,9 +126,9 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        if (GlobalData.isOnDebugMode()) {
+        /*if (GlobalData.isOnDebugMode()) {
             Logger.d("Save id of navigation item selected");
-        }
+        }*/
         outState.putInt(SAVED_NAV_ITEM_ID, navItemId);
         super.onSaveInstanceState(outState);
     }

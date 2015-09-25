@@ -19,4 +19,8 @@
     <color name="colorButtonPrimary">#009688</color>
     <color name="colorButtonPrimaryOff">#40009688</color>
     <color name="colorButtonSecondary">#e02626</color>
+
+    <!-- Device -->
+    <color name="card_device_color_default">#4a4a4a</color>
+
 </resources>
