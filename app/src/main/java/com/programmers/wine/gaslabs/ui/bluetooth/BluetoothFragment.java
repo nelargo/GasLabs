@@ -39,7 +39,7 @@ public class BluetoothFragment extends BaseFragment {
     /**
      * Scanning bluetooth devices in milliseconds.
      */
-    private static final long SCAN_PERIOD = 10000;
+    private static final long SCAN_PERIOD = 5000;
     private Button btnBluetoothControl;
     private boolean scanning = false;
     private Handler scanHandler;
@@ -87,13 +87,15 @@ public class BluetoothFragment extends BaseFragment {
         // create scan handler instance
         scanHandler = new Handler();
 
+        // prepare menu
+        getActivity().supportInvalidateOptionsMenu();
+
         if (!isBluetoothEnabled()) {
             // Bluetooth not enabled, we must enabled it
             enableBluetooth();
         } else {
             // Bluetooth already enabled, scan
             scanDevices(true);
-            // Snackbar.make(getView(), R.string.snack_bar_bluetooth_already_enabled, Snackbar.LENGTH_SHORT).show();
         }
 
     }
@@ -135,7 +137,14 @@ public class BluetoothFragment extends BaseFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.menu_bluetooth, menu);
+        updateMenu(menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        updateMenu(menu);
+        super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -146,12 +155,55 @@ public class BluetoothFragment extends BaseFragment {
                     ((HomeActivity) getActivity()).getDrawerLayout().openDrawer(GravityCompat.START);
                 }
                 return true;
-            case R.id.action_enable_bluetooth:
-                Toast.makeText(getActivity(), R.string.action_bluetooth_enable, Toast.LENGTH_SHORT).show();
+
+            case R.id.action_bluetooth_enable:
+                if (!isBluetoothEnabled()) {
+                    recyclerView.setVisibility(View.GONE);
+                    enableBluetooth();
+                } else {
+                    getActivity().supportInvalidateOptionsMenu();
+                }
                 return true;
 
+            case R.id.action_bluetooth_scan_start:
+                if (isBluetoothEnabled() && !isScanning()) {
+                    scanDevices(true);
+                } else {
+                    getActivity().supportInvalidateOptionsMenu();
+                }
+                return true;
+
+            case R.id.action_bluetooth_scan_stop:
+                if (isBluetoothEnabled() && isScanning()) {
+                    scanDevices(false);
+                } else {
+                    getActivity().supportInvalidateOptionsMenu();
+                }
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateMenu(Menu menu) {
+        MenuItem itemBluetoothEnable = menu.findItem(R.id.action_bluetooth_enable);
+        MenuItem itemScanStart = menu.findItem(R.id.action_bluetooth_scan_start);
+        MenuItem itemScanStop = menu.findItem(R.id.action_bluetooth_scan_stop);
+
+        if (isBluetoothEnabled()) {
+            itemBluetoothEnable.setVisible(false);
+            if (!isScanning()) {
+                itemScanStart.setVisible(true);
+                itemScanStop.setVisible(false);
+            } else {
+                itemScanStart.setVisible(false);
+                itemScanStop.setVisible(true);
+            }
+        } else {
+            itemBluetoothEnable.setVisible(true);
+            itemScanStart.setVisible(false);
+            itemScanStart.setVisible(false);
+        }
+
     }
 
     @Override
@@ -166,6 +218,8 @@ public class BluetoothFragment extends BaseFragment {
                 showButtonEnabledBluetooth();
             }
         }
+        // prepare menu
+        getActivity().supportInvalidateOptionsMenu();
 
     }
 
@@ -240,13 +294,15 @@ public class BluetoothFragment extends BaseFragment {
 
     private void showButtonScanDevices() {
         btnBluetoothControl.setVisibility(View.VISIBLE);
-        btnBluetoothControl.setText(R.string.action_bluetooth_scan);
+        btnBluetoothControl.setText(R.string.action_bluetooth_scan_start);
         btnBluetoothControl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isBluetoothEnabled()) {
+                    getActivity().supportInvalidateOptionsMenu();
                     scanDevices(true);
                 } else {
+                    getActivity().supportInvalidateOptionsMenu();
                     showButtonEnabledBluetooth();
                 }
             }
@@ -277,6 +333,10 @@ public class BluetoothFragment extends BaseFragment {
                     // Stop looking for bluetooth devices
                     scanning = false;
                     bluetoothAdapter.stopLeScan(leScanCallback);
+                    // prepare menu
+                    getActivity().supportInvalidateOptionsMenu();
+                    // stop progress
+                    progressBar.setVisibility(View.GONE);
 
                     if (scanDeviceAdapter == null || scanDeviceAdapter.getItemCount() == 0) {
                         showButtonScanDevices();
@@ -290,6 +350,7 @@ public class BluetoothFragment extends BaseFragment {
             // what we do when we need scan for bluetooth le devices.
             if (isBluetoothEnabled()) {
                 scanning = true;
+                scanDeviceAdapter.clear();
                 btnBluetoothControl.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.VISIBLE);
@@ -299,6 +360,13 @@ public class BluetoothFragment extends BaseFragment {
                 progressBar.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.GONE);
             }
+        } else {
+            scanning = false;
+            // stop progress
+            progressBar.setVisibility(View.GONE);
+            bluetoothAdapter.stopLeScan(leScanCallback);
+            // prepare menu
+            getActivity().supportInvalidateOptionsMenu();
         }
     }
 
