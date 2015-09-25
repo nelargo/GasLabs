@@ -5,6 +5,9 @@
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_about">Acerca de GasLabs</string>
     <string name="title_activity_service">Service (Lab)</string>
+    <string name="title_fragment_service">Service (Lab)</string>
+    <string name="title_fragment_bluetooth">Bluetooth (Lab)</string>
+    <string name="title_fragment_device">Device Detail (Lab)</string>
 
     <!-- Menu -->
     <string name="action_settings">Settings</string>
@@ -15,6 +18,8 @@
     <string name="action_get_from_bound_service">Get value</string>
     <string name="action_bluetooth_enable">Enable bluetooth</string>
     <string name="action_bluetooth_scan">Scan devices</string>
+    <string name="action_device_connect">Connect device</string>
+    <string name="action_device_disconnect">Disconnect device</string>
 
     <!-- Navigation view & Navigation drawer -->
     <string name="nav_drawer_open">Open drawer</string>
@@ -45,6 +50,9 @@
     <string name="dummy_email">gas@gaslabs.com</string>
     <string name="dummy_username">Gas Labs</string>
     <string name="empty" />
+    <string name="title_activity_device">DeviceActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 
 
 </resources>

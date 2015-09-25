@@ -34,7 +34,7 @@ import com.programmers.wine.gaslabs.util.GlobalData;
 import com.programmers.wine.gaslabs.util.ItemClickSupport;
 
 public class BluetoothFragment extends BaseFragment {
-    protected static final int RES_TITLE = R.string.drawer_item_bluetooth;
+    protected static final int RES_TITLE = R.string.title_fragment_bluetooth;
     private static final int REQUEST_ENABLE_BLUETOOTH = 1001;
     /**
      * Scanning bluetooth devices in milliseconds.
@@ -123,7 +123,10 @@ public class BluetoothFragment extends BaseFragment {
                 if (bluetoothDevice != null) {
                     msg = bluetoothDevice.getName();
                 }
+                GlobalData.getInstance().setSelectedBluetoothDevice(bluetoothDevice);
                 Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), DeviceActivity.class));
+                getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }
         });
     }
@@ -187,7 +190,7 @@ public class BluetoothFragment extends BaseFragment {
 
     private void initToolbar(View root) {
         Toolbar toolbar = (Toolbar) root.findViewById(R.id.toolbar);
-        if (getActivity() instanceof AppCompatActivity) {
+        if (getActivity() instanceof HomeActivity) {
             HomeActivity homeActivity = ((HomeActivity) getActivity());
             homeActivity.setSupportActionBar(toolbar);
             ActionBar actionBar = homeActivity.getSupportActionBar();

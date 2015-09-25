@@ -5,7 +5,7 @@
     <color name="colorPrimaryLight">#B2DFDB</color>
     <color name="colorAccent">#8BC34A</color>
     <color name="colorSecondary">#FFFFFF</color>
-    <color name="colorTertiary">#727272</color>
+    <color name="colorTertiary">#a7a7a7</color>
 
     <!-- Text color -->
     <color name="colorPrimaryText">#FFFFFF</color>
