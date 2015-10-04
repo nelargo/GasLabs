@@ -5,11 +5,16 @@ import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Binder;
 import android.os.IBinder;
+
+import com.orhanobut.logger.Logger;
 
 public class BluetoothLeService extends Service {
     private static final int STATE_CONNECTED = 0;
@@ -100,7 +105,7 @@ public class BluetoothLeService extends Service {
         this.device = device;
         this.address = address;
         this.connectionState = STATE_CONNECTING;
-        gatt = device.connectGatt(this, false, null);
+        gatt = device.connectGatt(this, false, gattCallback);
 
         return true;
     }
@@ -118,7 +123,7 @@ public class BluetoothLeService extends Service {
             }
         }
 
-        gatt = device.connectGatt(this, false, null);
+        gatt = device.connectGatt(this, false, gattCallback);
 
         return false;
     }*/
@@ -150,5 +155,57 @@ public class BluetoothLeService extends Service {
     }
 
 
-    
+    /**
+     * GattCallback instance with what we want to do when the connection to the GATT Server happens.
+     */
+    private final BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
+        @Override
+        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            super.onConnectionStateChange(gatt, status, newState);
+            handleNewState(newState);
+        }
+
+        @Override
+        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+            super.onServicesDiscovered(gatt, status);
+        }
+
+        @Override
+        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            super.onCharacteristicRead(gatt, characteristic, status);
+        }
+
+        @Override
+        public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+            super.onCharacteristicChanged(gatt, characteristic);
+        }
+    };
+
+    private void handleNewState(int newState) {
+        String intentAction;
+        if (newState == BluetoothProfile.STATE_CONNECTED) {
+            intentAction = Tags.ACTION_GATT_CONNECTED;
+            connectionState = STATE_CONNECTED;
+
+            // send msg
+            broadcastUpdate(intentAction);
+
+            // discover services
+            Logger.d("Discover services: " + (String.valueOf(this.gatt.discoverServices()));
+        } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+            intentAction = Tags.ACTION_GATT_DISCONNECTED;
+            connectionState = STATE_DISCONNECTED;
+
+            // send msg
+            broadcastUpdate(intentAction);
+        }
+
+        // Other state case are connecting and disconnecting.
+    }
+
+    private void broadcastUpdate(String action) {
+        Intent intent = new Intent(action);
+        sendBroadcast(intent);
+    }
+
 }
