@@ -50,6 +50,10 @@
     <string name="snack_bar_bluetooth_already_enabled">Bluetooth already enabled</string>
     <string name="dialog_licenses_title">Open source libraries used by GasLabs</string>
 
+    <!-- Scan device & Connect device -->
+    <string name="device_state_connected">Conectado</string>
+    <string name="device_state_disconnected">Desconectado</string>
+
     <!-- dummy -->
     <string name="dummy_email">gas@gaslabs.com</string>
     <string name="dummy_username">Gas Labs</string>

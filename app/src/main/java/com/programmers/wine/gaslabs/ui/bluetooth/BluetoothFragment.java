@@ -286,9 +286,9 @@ public class BluetoothFragment extends BaseFragment {
             }
             return false;
         }
-        if (GlobalData.isOnDebugMode()) {
+        /*if (GlobalData.isOnDebugMode()) {
             Logger.d("Bluetooth enabled");
-        }
+        }*/
         return true;
     }
 

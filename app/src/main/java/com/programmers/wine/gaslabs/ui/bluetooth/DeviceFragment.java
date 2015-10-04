@@ -2,7 +2,14 @@ package com.programmers.wine.gaslabs.ui.bluetooth;
 
 
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,11 +22,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 import com.programmers.wine.gaslabs.R;
+import com.programmers.wine.gaslabs.ui.bluetooth.connect.BluetoothLeService;
+import com.programmers.wine.gaslabs.ui.bluetooth.connect.Tags;
 import com.programmers.wine.gaslabs.ui.home.HomeActivity;
 import com.programmers.wine.gaslabs.util.BaseFragment;
 import com.programmers.wine.gaslabs.util.Utils;
@@ -30,9 +40,56 @@ public class DeviceFragment extends BaseFragment implements View.OnClickListener
     private BluetoothDevice bluetoothDevice;
     private boolean showToolbar;
     private Button btnDeviceControl;
-    // private ImageView icon;
+    private ImageView icon;
     private TextView title;
     private TextView subtitle;
+    private TextView connectionState;
+
+    private boolean connected = false;
+    private BluetoothLeService service;
+
+    private final ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            service = ((BluetoothLeService.LocalBinder) iBinder).getService();
+            if (!service.initialize()) {
+                Toast.makeText(getActivity(), "Service can't be initialized, bluetooth problem", Toast.LENGTH_LONG).show();
+                getActivity().finish();
+            }
+
+            if (bluetoothDevice != null) {
+                service.connect(bluetoothDevice.getAddress());
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            service = null;
+        }
+    };
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (Tags.ACTION_GATT_CONNECTED.equals(action)) {
+                connected = true;
+                updateConnectionState(R.string.device_state_connected);
+                getActivity().invalidateOptionsMenu();
+                Toast.makeText(getContext(), R.string.device_state_connected, Toast.LENGTH_SHORT).show();
+            } else if (Tags.ACTION_GATT_DISCONNECTED.equals(action)) {
+                connected = false;
+                updateConnectionState(R.string.device_state_disconnected);
+                Toast.makeText(getContext(), R.string.device_state_disconnected, Toast.LENGTH_SHORT).show();
+                getActivity().invalidateOptionsMenu();
+            } else if (Tags.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+                // show gatt services.
+            } else if (Tags.ACTION_DATA_AVAILABLE.equals(action)) {
+                // show data
+            }
+        }
+    };
+
 
     public static DeviceFragment newInstance(BluetoothDevice bluetoothDevice, boolean showToolbar) {
         DeviceFragment fragment = new DeviceFragment();
@@ -97,7 +154,10 @@ public class DeviceFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onClick(View view) {
         if (view == btnDeviceControl) {
-            Toast.makeText(getContext(), btnDeviceControl.getText(), Toast.LENGTH_SHORT).show();
+            // start service
+            Intent gattServiceIntent = new Intent(getActivity(), BluetoothLeService.class);
+            getActivity().bindService(gattServiceIntent, connection, Context.BIND_AUTO_CREATE);
+
         }
     }
 
@@ -131,9 +191,11 @@ public class DeviceFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void initViews(View root) {
-        // icon = (ImageView) root.findViewById(R.id.device_icon);
+        icon = (ImageView) root.findViewById(R.id.device_icon);
         title = (TextView) root.findViewById(R.id.device_title);
         subtitle = (TextView) root.findViewById(R.id.device_subtitle);
+        connectionState = (TextView) root.findViewById(R.id.device_state);
+
         btnDeviceControl = (Button) root.findViewById(R.id.btn_device_control);
 
         btnDeviceControl.setOnClickListener(this);
@@ -143,11 +205,14 @@ public class DeviceFragment extends BaseFragment implements View.OnClickListener
         if (bluetoothDevice != null) {
             title.setText(bluetoothDevice.getName());
             subtitle.setText(bluetoothDevice.getAddress());
+
             if (!isDeviceConnected()) {
                 btnDeviceControl.setText(R.string.action_device_connect);
+                connectionState.setText(R.string.device_state_disconnected);
                 Utils.setColorButton(getContext(), btnDeviceControl, R.color.colorButtonPrimary, R.drawable.btn_primary);
             } else {
                 btnDeviceControl.setText(R.string.action_device_connect);
+                connectionState.setText(R.string.device_state_connected);
                 Utils.setColorButton(getContext(), btnDeviceControl, R.color.colorButtonSecondary, R.drawable.btn_primary);
             }
         } else {
@@ -158,5 +223,47 @@ public class DeviceFragment extends BaseFragment implements View.OnClickListener
 
     private boolean isDeviceConnected() {
         return false;
+    }
+
+    private void updateConnectionState(final int resourceId) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                connectionState.setText(resourceId);
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().registerReceiver(receiver, makeGattUpdateIntentFilter());
+        if (service != null) {
+            if (bluetoothDevice != null) {
+                boolean result = service.connect(bluetoothDevice.getAddress());
+                Logger.d("Connect request result = " + result);
+            }
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(receiver);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        service = null;
+    }
+
+    private static IntentFilter makeGattUpdateIntentFilter() {
+        final IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Tags.ACTION_GATT_CONNECTED);
+        intentFilter.addAction(Tags.ACTION_GATT_DISCONNECTED);
+        intentFilter.addAction(Tags.ACTION_GATT_SERVICES_DISCOVERED);
+        intentFilter.addAction(Tags.ACTION_DATA_AVAILABLE);
+        return intentFilter;
     }
 }

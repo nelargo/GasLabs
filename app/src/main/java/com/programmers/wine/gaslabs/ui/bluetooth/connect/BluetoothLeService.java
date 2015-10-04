@@ -46,7 +46,7 @@ public class BluetoothLeService extends Service {
          *
          * @return Instance of BluetoothLeService so clients can call public methods.
          */
-        BluetoothLeService getService() {
+        public BluetoothLeService getService() {
             return BluetoothLeService.this;
         }
     }
@@ -105,7 +105,7 @@ public class BluetoothLeService extends Service {
         this.device = device;
         this.address = address;
         this.connectionState = STATE_CONNECTING;
-        gatt = device.connectGatt(this, false, gattCallback);
+        gatt = device.connectGatt(this, true, gattCallback);
 
         return true;
     }
@@ -161,23 +161,30 @@ public class BluetoothLeService extends Service {
     private final BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            super.onConnectionStateChange(gatt, status, newState);
+            // super.onConnectionStateChange(gatt, status, newState);
             handleNewState(newState);
         }
 
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-            super.onServicesDiscovered(gatt, status);
+            //super.onServicesDiscovered(gatt, status);
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+                broadcastUpdate(Tags.ACTION_GATT_SERVICES_DISCOVERED);
+            } else {
+                Logger.d("onServicesDiscovered received: " + status);
+            }
         }
 
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-            super.onCharacteristicRead(gatt, characteristic, status);
+            // super.onCharacteristicRead(gatt, characteristic, status);
+            broadcastUpdate(Tags.ACTION_DATA_AVAILABLE, characteristic);
         }
 
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-            super.onCharacteristicChanged(gatt, characteristic);
+            // super.onCharacteristicChanged(gatt, characteristic);
+            broadcastUpdate(Tags.ACTION_DATA_AVAILABLE, characteristic);
         }
     };
 
@@ -191,7 +198,7 @@ public class BluetoothLeService extends Service {
             broadcastUpdate(intentAction);
 
             // discover services
-            Logger.d("Discover services: " + (String.valueOf(this.gatt.discoverServices()));
+            Logger.d("Discover services: " + String.valueOf(this.gatt.discoverServices()));
         } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
             intentAction = Tags.ACTION_GATT_DISCONNECTED;
             connectionState = STATE_DISCONNECTED;
@@ -208,4 +215,17 @@ public class BluetoothLeService extends Service {
         sendBroadcast(intent);
     }
 
+    private void broadcastUpdate(String action, BluetoothGattCharacteristic characteristic) {
+        Intent intent = new Intent(action);
+        final byte[] data = characteristic.getValue();
+        if (data != null && data.length > 0) {
+            StringBuilder stringBuilder = new StringBuilder(data.length);
+            for (byte b : data) {
+                // Convert byte to hexadecimal
+                stringBuilder.append(String.format("%02X", b));
+            }
+            intent.putExtra(Tags.EXTRA_DATA, new String(data) + "\n" + stringBuilder.toString());
+        }
+        sendBroadcast(intent);
+    }
 }
