@@ -38,7 +38,9 @@ public class GasLabsService extends Service {
                     }
                 }
             }
-            stopSelf(msg.arg1);
+
+            //  never stop it self mua ha ha.
+            //stopSelf(msg.arg1);
         }
     }
 

@@ -58,6 +58,10 @@ public class ServiceActivity extends BaseActivity implements View.OnClickListene
         Utils.setColorButton(getBaseContext(), btnStop, R.color.colorButtonSecondary, R.drawable.btn_primary);
         btnStart.setOnClickListener(this);
         btnStop.setOnClickListener(this);
+
+        if (isMyServiceRunning(GasLabsService.class)) {
+            Toast.makeText(getBaseContext(), "The GasLabsService is already running", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

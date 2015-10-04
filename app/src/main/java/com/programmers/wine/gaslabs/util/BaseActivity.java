@@ -1,6 +1,8 @@
 package com.programmers.wine.gaslabs.util;
 
+import android.app.ActivityManager;
 import android.content.Context;
+import android.support.v4.app.ActivityManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
@@ -43,5 +45,15 @@ public class BaseActivity extends AppCompatActivity {
             dialog = createDialog();
             dialog.show();
         }
+    }
+
+    protected boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
