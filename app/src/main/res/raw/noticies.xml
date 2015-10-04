@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <notices>
     <!-- OkHttp -->
-    <notice>
+    <!--notice>
         <name>OkHttp</name>
         <url>http://square.github.io/okhttp/</url>
         <copyright>Copyright 2014 Square, Inc.</copyright>
         <license>Apache Software License 2.0</license>
-    </notice>
+    </notice-->
 
     <!-- Retrofit -->
-    <notice>
+    <!--notice>
         <name>Retrofit</name>
         <url>http://square.github.io/retrofit/</url>
         <copyright>Copyright 2013 Square, Inc.</copyright>
         <license>Apache Software License 2.0</license>
-    </notice>
+    </notice-->
 
     <!-- Glide -->
     <notice>
-        <name>Retrofit</name>
+        <name>Glide</name>
         <url>https://github.com/bumptech/glide</url>
         <copyright>Copyright 2014 Google, Inc. All rights reserved.</copyright>
         <license>Apache Software License 2.0</license>
@@ -65,22 +65,6 @@
         <license>Apache Software License 2.0</license>
     </notice>
 
-    <!-- Hawk -->
-    <notice>
-        <name>Hawk</name>
-        <url>https://github.com/orhanobut/hawk</url>
-        <copyright>Copyright 2015 Orhan Obut.</copyright>
-        <license>Apache Software License 2.0</license>
-    </notice>
-
-    <!-- Logger -->
-    <notice>
-        <name>logger</name>
-        <url>https://github.com/orhanobut/logger</url>
-        <copyright>Copyright 2015 Orhan Obut.</copyright>
-        <license>Apache Software License 2.0</license>
-    </notice>
-
     <!-- Logger -->
     <notice>
         <name>logger</name>
@@ -98,12 +82,12 @@
     </notice>
 
     <!-- Butter Knife -->
-    <notice>
+    <!--notice>
         <name>Butter Knife</name>
         <url>https://github.com/JakeWharton/butterknife</url>
         <copyright>Copyright 2013 Jake Wharton.</copyright>
         <license>Apache Software License 2.0</license>
-    </notice>
+    </notice-->
 
     <!-- Shimmer for Android -->
     <notice>
