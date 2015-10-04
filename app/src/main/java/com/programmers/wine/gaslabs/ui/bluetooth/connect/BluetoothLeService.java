@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Binder;
 import android.os.IBinder;
+import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 
@@ -62,6 +63,12 @@ public class BluetoothLeService extends Service {
         super.unbindService(conn);
     }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
+        return START_STICKY;
+    }
+
     public void closeGatt() {
         if (gatt == null) {
             return;
@@ -109,24 +116,6 @@ public class BluetoothLeService extends Service {
 
         return true;
     }
-
-    /*public boolean connect(BluetoothDevice device) {
-        if (device == null) {
-            return false;
-        }
-
-        if (device.equals(this.device) && gatt != null) {
-            if (gatt.connect()) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        gatt = device.connectGatt(this, false, gattCallback);
-
-        return false;
-    }*/
 
     /**
      * Try to reconnect to device.
@@ -227,5 +216,11 @@ public class BluetoothLeService extends Service {
             intent.putExtra(Tags.EXTRA_DATA, new String(data) + "\n" + stringBuilder.toString());
         }
         sendBroadcast(intent);
+    }
+
+    @Override
+    public void onRebind(Intent intent) {
+        super.onRebind(intent);
+        Logger.d("on rebind");
     }
 }

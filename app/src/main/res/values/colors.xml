@@ -23,4 +23,7 @@
     <!-- Device -->
     <color name="card_device_color_default">#4a4a4a</color>
 
+    <!-- Feedback -->
+    <color name="feedback_loading_progress">#80cbc4</color>
+
 </resources>

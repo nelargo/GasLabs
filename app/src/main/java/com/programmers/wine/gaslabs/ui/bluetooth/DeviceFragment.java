@@ -46,6 +46,7 @@ public class DeviceFragment extends BaseFragment implements View.OnClickListener
     private TextView connectionState;
 
     private boolean connected = false;
+    private boolean disconnectedByUser = false;
     private BluetoothLeService service;
 
     private final ServiceConnection connection = new ServiceConnection() {
@@ -71,6 +72,7 @@ public class DeviceFragment extends BaseFragment implements View.OnClickListener
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            dismissDialog();
             String action = intent.getAction();
             if (Tags.ACTION_GATT_CONNECTED.equals(action)) {
                 connected = true;
@@ -82,10 +84,17 @@ public class DeviceFragment extends BaseFragment implements View.OnClickListener
                 updateConnectionState(R.string.device_state_disconnected);
                 Toast.makeText(getContext(), R.string.device_state_disconnected, Toast.LENGTH_SHORT).show();
                 getActivity().invalidateOptionsMenu();
+                if (!disconnectedByUser) {
+                    showDialog();
+                } else {
+                    disconnectedByUser = false;
+                }
             } else if (Tags.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
                 // show gatt services.
+
             } else if (Tags.ACTION_DATA_AVAILABLE.equals(action)) {
                 // show data
+                Toast.makeText(getActivity(), intent.getExtras().getString(Tags.EXTRA_DATA), Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -154,10 +163,15 @@ public class DeviceFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onClick(View view) {
         if (view == btnDeviceControl) {
-            // start service
-            Intent gattServiceIntent = new Intent(getActivity(), BluetoothLeService.class);
-            getActivity().bindService(gattServiceIntent, connection, Context.BIND_AUTO_CREATE);
-
+            if (!connected) {
+                // start service
+                showDialog();
+                Intent gattServiceIntent = new Intent(getActivity(), BluetoothLeService.class);
+                getActivity().bindService(gattServiceIntent, connection, Context.BIND_AUTO_CREATE);
+            } else {
+                disconnectedByUser = true;
+                service.disconnect();
+            }
         }
     }
 
@@ -230,6 +244,13 @@ public class DeviceFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void run() {
                 connectionState.setText(resourceId);
+                if (connected) {
+                    Utils.setColorButton(getActivity(), btnDeviceControl, R.color.colorButtonSecondary, R.drawable.btn_primary);
+                    btnDeviceControl.setText(R.string.action_device_disconnect);
+                } else if (resourceId == R.string.device_state_disconnected) {
+                    Utils.setColorButton(getActivity(), btnDeviceControl, R.color.colorButtonPrimary, R.drawable.btn_primary);
+                    btnDeviceControl.setText(R.string.action_device_connect);
+                }
             }
         });
     }

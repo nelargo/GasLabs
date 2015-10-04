@@ -8,6 +8,7 @@
     <string name="title_fragment_service">Service (Lab)</string>
     <string name="title_fragment_bluetooth">Bluetooth (Lab)</string>
     <string name="title_fragment_device">Device Detail (Lab)</string>
+    <string name="title_activity_device">DeviceActivity</string>
 
     <!-- Menu -->
     <string name="action_settings">Settings</string>
@@ -54,13 +55,13 @@
     <string name="device_state_connected">Conectado</string>
     <string name="device_state_disconnected">Desconectado</string>
 
+    <!-- Feedback -->
+    <string name="loading">Cargando</string>
+
     <!-- dummy -->
     <string name="dummy_email">gas@gaslabs.com</string>
     <string name="dummy_username">Gas Labs</string>
     <string name="empty" />
-    <string name="title_activity_device">DeviceActivity</string>
-
-    <string name="hello_world">Hello world!</string>
 
 
 </resources>
