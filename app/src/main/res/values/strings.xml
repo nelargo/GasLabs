@@ -23,8 +23,8 @@
     <string name="action_bluetooth_scan_start">Scan</string>
     <string name="action_bluetooth_scan_stop">Stop</string>
     <!-- Device -->
-    <string name="action_device_connect">Connect device</string>
-    <string name="action_device_disconnect">Disconnect device</string>
+    <string name="action_device_connect">Connect</string>
+    <string name="action_device_disconnect">Disconnect</string>
 
     <!-- Navigation view & Navigation drawer -->
     <string name="nav_drawer_open">Open drawer</string>
@@ -63,5 +63,8 @@
     <string name="dummy_username">Gas Labs</string>
     <string name="empty" />
 
+
+    <!-- Device detail -->
+    <string name="device_detail">Device</string>
 
 </resources>

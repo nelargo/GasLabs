@@ -31,11 +31,11 @@ import com.programmers.wine.gaslabs.util.BaseFragment;
 import com.programmers.wine.gaslabs.util.DividerItemDecoration;
 import com.programmers.wine.gaslabs.util.GlobalData;
 import com.programmers.wine.gaslabs.util.ItemClickSupport;
+import com.programmers.wine.gaslabs.util.Tags;
 
 public class BluetoothFragment extends BaseFragment {
     protected static final int RES_TITLE = R.string.title_fragment_bluetooth;
     private static final int REQUEST_ENABLE_BLUETOOTH = 1001;
-    private static final String XIAOMI_MI_BAND_ADDRESS = "88:0f:10";
     /**
      * Scanning bluetooth devices in milliseconds.
      */
@@ -52,7 +52,7 @@ public class BluetoothFragment extends BaseFragment {
         public void onLeScan(BluetoothDevice bluetoothDevice, int rssi, byte[] scanRecord) {
             // add device to the list
             if (scanDeviceAdapter != null) {
-                if (bluetoothDevice.getAddress().toLowerCase().contains(XIAOMI_MI_BAND_ADDRESS)) {
+                if (bluetoothDevice.getAddress().toLowerCase().contains(Tags.XIAOMI_MI_BAND_START_ADDRESS)) {
                     scanDeviceAdapter.addDevice(bluetoothDevice);
                     scanDeviceAdapter.notifyDataSetChanged();
                 }

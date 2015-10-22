@@ -14,6 +14,7 @@
 
     <!-- List item and cards dimension -->
     <dimen name="padding">16dp</dimen>
+    <dimen name="margin">16dp</dimen>
     <dimen name="padding_left">16dp</dimen>
     <dimen name="padding_right">16dp</dimen>
     <dimen name="padding_top">16dp</dimen>

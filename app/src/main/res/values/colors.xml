@@ -6,6 +6,7 @@
     <color name="colorAccent">#8BC34A</color>
     <color name="colorSecondary">#FFFFFF</color>
     <color name="colorTertiary">#a7a7a7</color>
+    <color name="colorPrimaryBackground">#fafafa</color>
 
     <!-- Text color -->
     <color name="colorPrimaryText">#FFFFFF</color>
@@ -29,5 +30,9 @@
     <!-- Card -->
     <color name="cardBackgroundTint">#80FAFAFA</color>
     <color name="cardBackground">#FFFAFAFA</color>
+
+    <!-- Connection state color -->
+    <color name="device_state_connected">#009688</color>
+    <color name="device_state_disconnected">#e02626</color>
 
 </resources>

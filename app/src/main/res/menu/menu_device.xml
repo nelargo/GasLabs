@@ -2,6 +2,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.programmers.wine.gaslabs.ui.bluetooth.DeviceActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <item
+        android:id="@+id/action_device_connect"
+        android:orderInCategory="100"
+        android:title="@string/action_device_connect"
+        android:visible="true"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_device_disconnect"
+        android:orderInCategory="200"
+        android:title="@string/action_device_disconnect"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
 </menu>
