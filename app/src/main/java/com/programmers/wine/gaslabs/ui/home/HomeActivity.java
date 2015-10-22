@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.orhanobut.logger.Logger;
 import com.programmers.wine.gaslabs.R;
 import com.programmers.wine.gaslabs.ui.about.AboutActivity;
-import com.programmers.wine.gaslabs.ui.bluetooth.BluetoothFragment;
+import com.programmers.wine.gaslabs.ui.bluetooth.ScanDeviceFragment;
 import com.programmers.wine.gaslabs.ui.panel.PanelFragment;
 import com.programmers.wine.gaslabs.ui.service.ServiceFragment;
 import com.programmers.wine.gaslabs.util.BaseActivity;
@@ -121,7 +121,7 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
                 fragmentTransaction.replace(R.id.content, ServiceFragment.newInstance(), TAG_FRAGMENT_SERVICE);
                 break;
             case R.id.drawer_item_bluethooth:
-                fragmentTransaction.replace(R.id.content, BluetoothFragment.newInstance(), TAG_FRAGMENT_BLUETOOTH);
+                fragmentTransaction.replace(R.id.content, ScanDeviceFragment.newInstance(), TAG_FRAGMENT_BLUETOOTH);
                 break;
         }
         fragmentTransaction.commit();

@@ -33,7 +33,7 @@ import com.programmers.wine.gaslabs.util.GlobalData;
 import com.programmers.wine.gaslabs.util.ItemClickSupport;
 import com.programmers.wine.gaslabs.util.Tags;
 
-public class BluetoothFragment extends BaseFragment {
+public class ScanDeviceFragment extends BaseFragment {
     protected static final int RES_TITLE = R.string.title_fragment_bluetooth;
     private static final int REQUEST_ENABLE_BLUETOOTH = 1001;
     /**
@@ -56,18 +56,21 @@ public class BluetoothFragment extends BaseFragment {
                     scanDeviceAdapter.addDevice(bluetoothDevice);
                     scanDeviceAdapter.notifyDataSetChanged();
                 }
+
+                //scanDeviceAdapter.addDevice(bluetoothDevice);
+                //scanDeviceAdapter.notifyDataSetChanged();
             }
         }
     };
 
-    public static BluetoothFragment newInstance() {
-        BluetoothFragment fragment = new BluetoothFragment();
+    public static ScanDeviceFragment newInstance() {
+        ScanDeviceFragment fragment = new ScanDeviceFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public BluetoothFragment() {
+    public ScanDeviceFragment() {
         // Required empty public constructor
     }
 

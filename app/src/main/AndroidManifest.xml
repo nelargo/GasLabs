@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.programmers.wine.gaslabs">
+    package="com.programmers.wine.gaslabs" >
+
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
-    <uses-feature
-        android:name="android.hardware.bluetooth_le"
-        android:required="true" />
-
     <application
         android:name=".GasLabsApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".ui.launch.LaunchActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +29,7 @@
         <activity
             android:name=".ui.home.HomeActivity"
             android:label="@string/title_activity_home"
-            android:parentActivityName=".ui.launch.LaunchActivity">
+            android:parentActivityName=".ui.launch.LaunchActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.programmers.wine.gaslabs.ui.launch.LaunchActivity" />
@@ -38,7 +38,7 @@
             android:name=".ui.about.AboutActivity"
             android:label="@string/title_activity_about"
             android:parentActivityName=".ui.home.HomeActivity"
-            android:theme="@style/AppTheme.SwipeBack">
+            android:theme="@style/AppTheme.SwipeBack" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.programmers.wine.gaslabs.ui.home.HomeActivity" />
@@ -46,7 +46,7 @@
         <activity
             android:name=".ui.service.ServiceActivity"
             android:label="@string/title_activity_service"
-            android:parentActivityName=".ui.home.HomeActivity">
+            android:parentActivityName=".ui.home.HomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.programmers.wine.gaslabs.ui.home.HomeActivity" />
@@ -60,7 +60,6 @@
             android:name=".ui.service.LocalService"
             android:enabled="true"
             android:exported="false" />
-
         <service
             android:name=".ui.bluetooth.connect.BluetoothLeService"
             android:enabled="true"
@@ -70,11 +69,21 @@
             android:name=".ui.bluetooth.DeviceActivity"
             android:label="@string/title_activity_device"
             android:parentActivityName=".ui.home.HomeActivity"
-            android:theme="@style/AppTheme.SwipeBack">
+            android:theme="@style/AppTheme.SwipeBack" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.programmers.wine.gaslabs.ui.home.HomeActivity" />
         </activity>
+
+        <service
+            android:name=".ui.bluetooth.connect.DeviceConnectionService"
+            android:exported="false" >
+        </service>
+        <service
+            android:name=".ui.bluetooth.connect.XiaomiConnectionService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

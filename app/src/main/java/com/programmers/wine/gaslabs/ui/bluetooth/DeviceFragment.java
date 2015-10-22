@@ -2,6 +2,10 @@ package com.programmers.wine.gaslabs.ui.bluetooth;
 
 
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -17,21 +21,42 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.programmers.wine.gaslabs.R;
+import com.programmers.wine.gaslabs.ui.bluetooth.connect.Callback;
+import com.programmers.wine.gaslabs.ui.bluetooth.connect.XiaomiGattCallback;
 import com.programmers.wine.gaslabs.ui.home.HomeActivity;
 import com.programmers.wine.gaslabs.util.BaseFragment;
 import com.programmers.wine.gaslabs.util.Tags;
 
 
 public class DeviceFragment extends BaseFragment {
-    protected static final int RES_TITLE = R.string.title_fragment_device;
     private BluetoothDevice bluetoothDevice;
     private boolean showToolbar;
     private ImageView icon;
     private TextView title;
     private TextView subtitle;
     private TextView connectionState;
+
+    private boolean connected = false;
+
+    private final BroadcastReceiver mPairReceiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action)) {
+                final int state = intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, BluetoothDevice.ERROR);
+                final int prevState = intent.getIntExtra(BluetoothDevice.EXTRA_PREVIOUS_BOND_STATE, BluetoothDevice.ERROR);
+
+                if (state == BluetoothDevice.BOND_BONDED && prevState == BluetoothDevice.BOND_BONDING) {
+                    Toast.makeText(getContext(), "Paired", Toast.LENGTH_SHORT).show();
+                } else if (state == BluetoothDevice.BOND_NONE && prevState == BluetoothDevice.BOND_BONDED) {
+                    Toast.makeText(getContext(), "Unpaired", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    };
 
     public static DeviceFragment newInstance(BluetoothDevice bluetoothDevice, boolean showToolbar) {
         DeviceFragment fragment = new DeviceFragment();
@@ -47,15 +72,15 @@ public class DeviceFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (showToolbar) {
+            setHasOptionsMenu(true);
+        }
         return inflater.inflate(R.layout.fragment_device, container, false);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (showToolbar) {
-            setHasOptionsMenu(true);
-        }
     }
 
     @Override
@@ -75,7 +100,14 @@ public class DeviceFragment extends BaseFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.menu_device, menu);
+        updateMenu(menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        updateMenu(menu);
+        super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -91,8 +123,38 @@ public class DeviceFragment extends BaseFragment {
                     }
                 }
                 return true;
+
+            case R.id.action_device_connect:
+                XiaomiGattCallback xiaomiGattCallback = new XiaomiGattCallback();
+                xiaomiGattCallback.connect(getContext(), bluetoothDevice.getAddress(), new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        updateConnectionState(true);
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        updateConnectionState(false);
+                    }
+                });
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void updateMenu(Menu menu) {
+        MenuItem itemConnect = menu.findItem(R.id.action_device_connect);
+        MenuItem itemDisconnect = menu.findItem(R.id.action_device_disconnect);
+
+        if (isConnected()) {
+            itemConnect.setVisible(false);
+            itemDisconnect.setVisible(true);
+        } else {
+            itemConnect.setVisible(true);
+            itemDisconnect.setVisible(false);
+        }
+
     }
 
     private void initToolbar(View root) {
@@ -111,7 +173,7 @@ public class DeviceFragment extends BaseFragment {
                 if (bluetoothDevice != null) {
                     actionBar.setTitle(getString(R.string.device_detail) + " (" + bluetoothDevice.getName() + ")");
                 } else {
-                    actionBar.setTitle(RES_TITLE);
+                    actionBar.setTitle(R.string.title_fragment_device);
                     actionBar.setIcon(R.mipmap.ic_launcher);
                 }
 
@@ -147,14 +209,34 @@ public class DeviceFragment extends BaseFragment {
         updateConnectionState(false);
     }
 
-    private void updateConnectionState(boolean connected) {
-        if (connected) {
-            connectionState.setText(getString(R.string.device_state_connected));
-            connectionState.setTextColor(ContextCompat.getColor(getContext(), R.color.device_state_connected));
-        } else {
-            connectionState.setText(getString(R.string.device_state_disconnected));
-            connectionState.setTextColor(ContextCompat.getColor(getContext(), R.color.device_state_disconnected));
-        }
+    private void updateConnectionState(final boolean connected) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (connected) {
+                    connectionState.setText(getString(R.string.device_state_connected));
+                    connectionState.setTextColor(ContextCompat.getColor(getContext(), R.color.device_state_connected));
+                } else {
+                    connectionState.setText(getString(R.string.device_state_disconnected));
+                    connectionState.setTextColor(ContextCompat.getColor(getContext(), R.color.device_state_disconnected));
+                }
+            }
+        });
     }
 
+    public boolean isConnected() {
+        return connected;
+    }
+
+    @Override
+    public void onResume() {
+        super.onStart();
+        getActivity().registerReceiver(mPairReceiver, new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(mPairReceiver);
+    }
 }
