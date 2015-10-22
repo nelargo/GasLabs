@@ -3,6 +3,7 @@
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context="com.programmers.wine.gaslabs.ui.bluetooth.DeviceActivity">
 
 </FrameLayout>

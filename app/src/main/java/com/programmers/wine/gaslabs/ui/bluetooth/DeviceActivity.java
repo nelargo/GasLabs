@@ -7,10 +7,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.programmers.wine.gaslabs.R;
-import com.programmers.wine.gaslabs.util.BaseActivity;
+import com.programmers.wine.gaslabs.util.BaseSwipeBackActivity;
 import com.programmers.wine.gaslabs.util.GlobalData;
 
-public class DeviceActivity extends BaseActivity {
+public class DeviceActivity extends BaseSwipeBackActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

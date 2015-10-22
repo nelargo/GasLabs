@@ -37,7 +37,8 @@
         <activity
             android:name=".ui.about.AboutActivity"
             android:label="@string/title_activity_about"
-            android:parentActivityName=".ui.home.HomeActivity">
+            android:parentActivityName=".ui.home.HomeActivity"
+            android:theme="@style/AppTheme.SwipeBack">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.programmers.wine.gaslabs.ui.home.HomeActivity" />
@@ -68,7 +69,8 @@
         <activity
             android:name=".ui.bluetooth.DeviceActivity"
             android:label="@string/title_activity_device"
-            android:parentActivityName=".ui.home.HomeActivity">
+            android:parentActivityName=".ui.home.HomeActivity"
+            android:theme="@style/AppTheme.SwipeBack">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.programmers.wine.gaslabs.ui.home.HomeActivity" />

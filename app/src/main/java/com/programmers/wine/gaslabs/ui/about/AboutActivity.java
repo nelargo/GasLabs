@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.programmers.wine.gaslabs.BuildConfig;
 import com.programmers.wine.gaslabs.R;
-import com.programmers.wine.gaslabs.util.BaseActivity;
+import com.programmers.wine.gaslabs.util.BaseSwipeBackActivity;
 import com.programmers.wine.gaslabs.util.DividerItemDecoration;
 import com.programmers.wine.gaslabs.util.ItemClickSupport;
 
@@ -21,7 +21,7 @@ import java.util.List;
 
 import de.psdev.licensesdialog.LicensesDialog;
 
-public class AboutActivity extends BaseActivity {
+public class AboutActivity extends BaseSwipeBackActivity {
     private static final int RES_TITLE = R.string.title_activity_about;
 
     private RecyclerView recyclerView;

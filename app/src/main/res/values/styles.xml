@@ -16,6 +16,11 @@
         <item name="android:textColorTertiary">@color/colorTertiaryText</item>
     </style>
 
+    <style name="AppTheme.SwipeBack" parent="AppTheme.Base">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
     <!-- Tab layout -->
     <style name="TabLayout" parent="Widget.Design.TabLayout">
         <item name="tabTextAppearance">@style/TabLayout.TextAppearance</item>

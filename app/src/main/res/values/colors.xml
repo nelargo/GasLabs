@@ -26,4 +26,8 @@
     <!-- Feedback -->
     <color name="feedback_loading_progress">#80cbc4</color>
 
+    <!-- Card -->
+    <color name="cardBackgroundTint">#80FAFAFA</color>
+    <color name="cardBackground">#FFFAFAFA</color>
+
 </resources>

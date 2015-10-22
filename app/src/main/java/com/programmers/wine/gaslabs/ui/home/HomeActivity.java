@@ -43,9 +43,12 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
         setContentView(R.layout.activity_home);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
-        CircleImageView circleImageView = (CircleImageView) navigationView.findViewById(R.id.avatar);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header = getLayoutInflater().inflate(R.layout.drawer_header, null);
+        navigationView.addHeaderView(header);
+
+        CircleImageView circleImageView = (CircleImageView) header.findViewById(R.id.avatar);
         circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,9 +129,6 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        /*if (GlobalData.isOnDebugMode()) {
-            Logger.d("Save id of navigation item selected");
-        }*/
         outState.putInt(SAVED_NAV_ITEM_ID, navItemId);
         super.onSaveInstanceState(outState);
     }
