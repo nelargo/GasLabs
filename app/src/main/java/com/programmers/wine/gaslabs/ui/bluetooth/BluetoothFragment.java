@@ -21,7 +21,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -36,11 +35,11 @@ import com.programmers.wine.gaslabs.util.ItemClickSupport;
 public class BluetoothFragment extends BaseFragment {
     protected static final int RES_TITLE = R.string.title_fragment_bluetooth;
     private static final int REQUEST_ENABLE_BLUETOOTH = 1001;
+    private static final String XIAOMI_MI_BAND_ADDRESS = "88:0f:10";
     /**
      * Scanning bluetooth devices in milliseconds.
      */
-    private static final long SCAN_PERIOD = 5000;
-    private Button btnBluetoothControl;
+    private static final long SCAN_PERIOD = 15000;
     private boolean scanning = false;
     private Handler scanHandler;
     private BluetoothAdapter bluetoothAdapter;
@@ -53,8 +52,10 @@ public class BluetoothFragment extends BaseFragment {
         public void onLeScan(BluetoothDevice bluetoothDevice, int rssi, byte[] scanRecord) {
             // add device to the list
             if (scanDeviceAdapter != null) {
-                scanDeviceAdapter.addDevice(bluetoothDevice);
-                scanDeviceAdapter.notifyDataSetChanged();
+                if (bluetoothDevice.getAddress().toLowerCase().contains(XIAOMI_MI_BAND_ADDRESS)) {
+                    scanDeviceAdapter.addDevice(bluetoothDevice);
+                    scanDeviceAdapter.notifyDataSetChanged();
+                }
             }
         }
     };
@@ -101,12 +102,10 @@ public class BluetoothFragment extends BaseFragment {
     }
 
     private void initViews(View root) {
-        btnBluetoothControl = (Button) root.findViewById(R.id.btn_bluetooth_control);
         progressBar = (ProgressBar) root.findViewById(R.id.progress);
         recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
 
         progressBar.setVisibility(View.GONE);
-        btnBluetoothControl.setVisibility(View.GONE);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), null));
         recyclerView.setHasFixedSize(true);
 
@@ -166,18 +165,30 @@ public class BluetoothFragment extends BaseFragment {
                 return true;
 
             case R.id.action_bluetooth_scan_start:
-                if (isBluetoothEnabled() && !isScanning()) {
-                    scanDevices(true);
+                if (isBluetoothEnabled()) {
+                    if (!isScanning()) {
+                        scanDevices(true);
+                    } else {
+                        getActivity().supportInvalidateOptionsMenu();
+                    }
                 } else {
                     getActivity().supportInvalidateOptionsMenu();
+                    recyclerView.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
                 }
                 return true;
 
             case R.id.action_bluetooth_scan_stop:
-                if (isBluetoothEnabled() && isScanning()) {
-                    scanDevices(false);
+                if (isBluetoothEnabled()) {
+                    if (isScanning()) {
+                        scanDevices(false);
+                    } else {
+                        getActivity().supportInvalidateOptionsMenu();
+                    }
                 } else {
                     getActivity().supportInvalidateOptionsMenu();
+                    recyclerView.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
                 }
                 return true;
         }
@@ -215,7 +226,7 @@ public class BluetoothFragment extends BaseFragment {
                 scanDevices(true);
             } else {
                 // Bluetooth not enabled, try again button.
-                showButtonEnabledBluetooth();
+                getActivity().supportInvalidateOptionsMenu();
             }
         }
         // prepare menu
@@ -286,42 +297,8 @@ public class BluetoothFragment extends BaseFragment {
             }
             return false;
         }
-        /*if (GlobalData.isOnDebugMode()) {
-            Logger.d("Bluetooth enabled");
-        }*/
+
         return true;
-    }
-
-    private void showButtonScanDevices() {
-        btnBluetoothControl.setVisibility(View.VISIBLE);
-        btnBluetoothControl.setText(R.string.action_bluetooth_scan_start);
-        btnBluetoothControl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isBluetoothEnabled()) {
-                    getActivity().supportInvalidateOptionsMenu();
-                    scanDevices(true);
-                } else {
-                    getActivity().supportInvalidateOptionsMenu();
-                    showButtonEnabledBluetooth();
-                }
-            }
-        });
-    }
-
-    private void showButtonEnabledBluetooth() {
-        btnBluetoothControl.setVisibility(View.VISIBLE);
-        btnBluetoothControl.setText(R.string.action_bluetooth_enable);
-        btnBluetoothControl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!isBluetoothEnabled()) {
-                    enableBluetooth();
-                } else {
-                    showButtonScanDevices();
-                }
-            }
-        });
     }
 
     private void scanDevices(boolean enable) {
@@ -339,7 +316,7 @@ public class BluetoothFragment extends BaseFragment {
                     progressBar.setVisibility(View.GONE);
 
                     if (scanDeviceAdapter == null || scanDeviceAdapter.getItemCount() == 0) {
-                        showButtonScanDevices();
+                        getActivity().supportInvalidateOptionsMenu();
                         recyclerView.setVisibility(View.GONE);
                         progressBar.setVisibility(View.GONE);
                     }
@@ -351,12 +328,12 @@ public class BluetoothFragment extends BaseFragment {
             if (isBluetoothEnabled()) {
                 scanning = true;
                 scanDeviceAdapter.clear();
-                btnBluetoothControl.setVisibility(View.GONE);
+                getActivity().supportInvalidateOptionsMenu();
                 progressBar.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.VISIBLE);
                 bluetoothAdapter.startLeScan(leScanCallback);
             } else {
-                showButtonEnabledBluetooth();
+                getActivity().supportInvalidateOptionsMenu();
                 progressBar.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.GONE);
             }

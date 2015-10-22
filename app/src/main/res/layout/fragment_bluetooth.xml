@@ -31,19 +31,6 @@
         android:layout_below="@+id/toolbar"
         android:orientation="vertical">
 
-        <!--TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/drawer_item_bluetooth"
-            android:textSize="@dimen/text_size_titan" /-->
-
-        <Button
-            android:id="@+id/btn_bluetooth_control"
-            style="@style/PrimaryButton"
-            android:layout_marginTop="16dp"
-            android:text="@string/action_bluetooth_enable" />
-
         <ProgressBar
             android:id="@+id/progress"
             android:layout_width="wrap_content"

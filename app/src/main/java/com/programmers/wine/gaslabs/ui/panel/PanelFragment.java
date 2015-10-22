@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.programmers.wine.gaslabs.R;
@@ -21,6 +22,7 @@ import com.programmers.wine.gaslabs.util.BaseFragment;
 
 public class PanelFragment extends BaseFragment {
     protected static final int RES_TITLE = R.string.drawer_item_panel;
+    private TextView tvSteps;
 
     public static PanelFragment newInstance() {
         PanelFragment fragment = new PanelFragment();
@@ -50,6 +52,9 @@ public class PanelFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initToolbar(view);
+
+        tvSteps = (TextView) view.findViewById(R.id.steps);
+        tvSteps.setText("Steps :(");
     }
 
     @Override
