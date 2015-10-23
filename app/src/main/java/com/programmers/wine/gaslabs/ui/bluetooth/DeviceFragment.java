@@ -3,6 +3,7 @@ package com.programmers.wine.gaslabs.ui.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +31,7 @@ import com.programmers.wine.gaslabs.ui.bluetooth.connect.Callback;
 import com.programmers.wine.gaslabs.ui.bluetooth.connect.XiaomiGattCallback;
 import com.programmers.wine.gaslabs.ui.home.HomeActivity;
 import com.programmers.wine.gaslabs.util.BaseFragment;
+import com.programmers.wine.gaslabs.util.GlobalData;
 import com.programmers.wine.gaslabs.util.Tags;
 
 
@@ -175,18 +177,22 @@ public class DeviceFragment extends BaseFragment {
                 return true;
 
             case R.id.action_device_connect:
-                XiaomiGattCallback xiaomiGattCallback = new XiaomiGattCallback();
-                xiaomiGattCallback.connect(getContext(), bluetoothDevice.getAddress(), new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        updateConnectionState(true);
-                    }
+                if (isBluetoothEnabled()) {
+                    XiaomiGattCallback xiaomiGattCallback = new XiaomiGattCallback();
+                    xiaomiGattCallback.connect(getContext(), bluetoothDevice.getAddress(), new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            updateConnectionState(true);
+                        }
 
-                    @Override
-                    public void onFailure() {
-                        updateConnectionState(false);
-                    }
-                });
+                        @Override
+                        public void onFailure() {
+                            updateConnectionState(false);
+                        }
+                    });
+                } else {
+                    Toast.makeText(getContext(), R.string.feedback_bluetooth_enabled_required, Toast.LENGTH_LONG).show();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -299,4 +305,30 @@ public class DeviceFragment extends BaseFragment {
         intentFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
         return intentFilter;
     }
+
+    /**
+     * Verify if the bluetooth is enabled
+     *
+     * @return True if the bluetooth is enabled.
+     */
+    private boolean isBluetoothEnabled() {
+        if (getActivity() == null) {
+            Logger.d("getActivity() == null");
+            return false;
+        }
+
+        // get bluetooth adapter
+        BluetoothManager bluetoothManager = (BluetoothManager) getActivity().getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
+
+        if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled()) {
+            if (GlobalData.isOnDebugMode()) {
+                Logger.d("Bluetooth not enabled");
+            }
+            return false;
+        }
+
+        return true;
+    }
+
 }

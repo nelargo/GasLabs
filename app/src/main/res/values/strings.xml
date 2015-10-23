@@ -50,6 +50,7 @@
     <string name="snack_bar_option_already_selected">This option is already selected</string>
     <string name="snack_bar_bluetooth_already_enabled">Bluetooth already enabled</string>
     <string name="dialog_licenses_title">Open source libraries used by GasLabs</string>
+    <string name="feedback_bluetooth_enabled_required">Please enable bluetooth</string>
 
     <!-- Scan device & Connect device -->
     <string name="device_state_connected">Conectado</string>
