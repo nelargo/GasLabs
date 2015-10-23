@@ -32,6 +32,10 @@ public class XiaomiGattCallback extends BluetoothGattCallback implements XiaomiC
         } else {
             callback.onFailure();
         }
+
+        if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+            Logger.d("STATE_DISCONNECTED");
+        }
     }
 
     @Override

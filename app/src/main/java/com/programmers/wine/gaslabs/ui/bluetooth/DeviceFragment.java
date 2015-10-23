@@ -263,6 +263,7 @@ public class DeviceFragment extends BaseFragment {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                DeviceFragment.this.connected = connected;
                 getActivity().invalidateOptionsMenu();
                 if (connected) {
                     connectionState.setText(getString(R.string.device_state_connected));
