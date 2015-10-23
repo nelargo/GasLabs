@@ -1,6 +1,7 @@
 package com.programmers.wine.gaslabs.ui.bluetooth;
 
 
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
 import com.programmers.wine.gaslabs.R;
 import com.programmers.wine.gaslabs.ui.bluetooth.connect.Callback;
 import com.programmers.wine.gaslabs.ui.bluetooth.connect.XiaomiGattCallback;
@@ -43,6 +45,8 @@ public class DeviceFragment extends BaseFragment {
 
     private final BroadcastReceiver mPairReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
+            Logger.d("BroadcastReceiver \\(>_<)/");
+
             String action = intent.getAction();
 
             if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action)) {
@@ -53,6 +57,52 @@ public class DeviceFragment extends BaseFragment {
                     Toast.makeText(getContext(), "Paired", Toast.LENGTH_SHORT).show();
                 } else if (state == BluetoothDevice.BOND_NONE && prevState == BluetoothDevice.BOND_BONDED) {
                     Toast.makeText(getContext(), "Unpaired", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(action)) {
+                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
+                switch (state) {
+                    case BluetoothAdapter.STATE_CONNECTED:
+                        Toast.makeText(context,
+                                "BTStateChangedBroadcastReceiver: STATE_CONNECTED",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case BluetoothAdapter.STATE_CONNECTING:
+                        Toast.makeText(context,
+                                "BTStateChangedBroadcastReceiver: STATE_CONNECTING",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case BluetoothAdapter.STATE_DISCONNECTED:
+                        Toast.makeText(context,
+                                "BTStateChangedBroadcastReceiver: STATE_DISCONNECTED",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case BluetoothAdapter.STATE_DISCONNECTING:
+                        Toast.makeText(context,
+                                "BTStateChangedBroadcastReceiver: STATE_DISCONNECTING",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case BluetoothAdapter.STATE_OFF:
+                        Toast.makeText(context,
+                                "BTStateChangedBroadcastReceiver: STATE_OFF",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case BluetoothAdapter.STATE_ON:
+                        Toast.makeText(context,
+                                "BTStateChangedBroadcastReceiver: STATE_ON",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case BluetoothAdapter.STATE_TURNING_OFF:
+                        Toast.makeText(context,
+                                "BTStateChangedBroadcastReceiver: STATE_TURNING_OFF",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case BluetoothAdapter.STATE_TURNING_ON:
+                        Toast.makeText(context,
+                                "BTStateChangedBroadcastReceiver: STATE_TURNING_ON",
+                                Toast.LENGTH_SHORT).show();
+                        break;
                 }
             }
         }
@@ -213,6 +263,7 @@ public class DeviceFragment extends BaseFragment {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                getActivity().invalidateOptionsMenu();
                 if (connected) {
                     connectionState.setText(getString(R.string.device_state_connected));
                     connectionState.setTextColor(ContextCompat.getColor(getContext(), R.color.device_state_connected));
@@ -231,12 +282,20 @@ public class DeviceFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onStart();
-        getActivity().registerReceiver(mPairReceiver, new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED));
+        getActivity().registerReceiver(mPairReceiver, createIntentFilter());
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(mPairReceiver);
+    }
+
+
+    private static IntentFilter createIntentFilter() {
+        final IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
+        intentFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
+        return intentFilter;
     }
 }

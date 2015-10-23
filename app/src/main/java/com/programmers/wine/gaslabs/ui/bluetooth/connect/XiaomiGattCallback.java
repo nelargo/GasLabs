@@ -78,7 +78,7 @@ public class XiaomiGattCallback extends BluetoothGattCallback implements XiaomiC
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         BluetoothDevice bluetoothDevice = bluetoothAdapter.getRemoteDevice(address);
         this.bluetoothDevice = bluetoothDevice;
-        bluetoothDevice.connectGatt(context, false, this);
+        bluetoothDevice.connectGatt(context, true, this);
         Logger.d("Device: " + bluetoothDevice.getAddress() + "\nBound state: " + bluetoothDevice.getBondState());
     }
 
