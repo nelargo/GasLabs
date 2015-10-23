@@ -6,7 +6,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.orhanobut.logger.Logger;
 import com.programmers.wine.gaslabs.R;
+import com.programmers.wine.gaslabs.ui.bluetooth.service.XiaomiService;
 import com.programmers.wine.gaslabs.util.BaseSwipeBackActivity;
 import com.programmers.wine.gaslabs.util.GlobalData;
 
@@ -16,6 +18,12 @@ public class DeviceActivity extends BaseSwipeBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device);
+
+        if (isMyServiceRunning(XiaomiService.class)) {
+            Logger.d("Xiaomi service already running");
+        } else {
+            Logger.d("Xiaomi service not running");
+        }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

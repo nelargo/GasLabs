@@ -5,10 +5,13 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
@@ -29,6 +32,7 @@ import com.orhanobut.logger.Logger;
 import com.programmers.wine.gaslabs.R;
 import com.programmers.wine.gaslabs.ui.bluetooth.connect.Callback;
 import com.programmers.wine.gaslabs.ui.bluetooth.connect.XiaomiGattCallback;
+import com.programmers.wine.gaslabs.ui.bluetooth.service.XiaomiService;
 import com.programmers.wine.gaslabs.ui.home.HomeActivity;
 import com.programmers.wine.gaslabs.util.BaseFragment;
 import com.programmers.wine.gaslabs.util.GlobalData;
@@ -66,47 +70,53 @@ public class DeviceFragment extends BaseFragment {
                 final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
                 switch (state) {
                     case BluetoothAdapter.STATE_CONNECTED:
-                        Toast.makeText(context,
-                                "BTStateChangedBroadcastReceiver: STATE_CONNECTED",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "BTStateChangedBroadcastReceiver: STATE_CONNECTED", Toast.LENGTH_SHORT).show();
                         break;
                     case BluetoothAdapter.STATE_CONNECTING:
-                        Toast.makeText(context,
-                                "BTStateChangedBroadcastReceiver: STATE_CONNECTING",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "BTStateChangedBroadcastReceiver: STATE_CONNECTING", Toast.LENGTH_SHORT).show();
                         break;
                     case BluetoothAdapter.STATE_DISCONNECTED:
-                        Toast.makeText(context,
-                                "BTStateChangedBroadcastReceiver: STATE_DISCONNECTED",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "BTStateChangedBroadcastReceiver: STATE_DISCONNECTED", Toast.LENGTH_SHORT).show();
                         break;
                     case BluetoothAdapter.STATE_DISCONNECTING:
-                        Toast.makeText(context,
-                                "BTStateChangedBroadcastReceiver: STATE_DISCONNECTING",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "BTStateChangedBroadcastReceiver: STATE_DISCONNECTING", Toast.LENGTH_SHORT).show();
                         break;
                     case BluetoothAdapter.STATE_OFF:
-                        Toast.makeText(context,
-                                "BTStateChangedBroadcastReceiver: STATE_OFF",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "BTStateChangedBroadcastReceiver: STATE_OFF", Toast.LENGTH_SHORT).show();
                         break;
                     case BluetoothAdapter.STATE_ON:
-                        Toast.makeText(context,
-                                "BTStateChangedBroadcastReceiver: STATE_ON",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "BTStateChangedBroadcastReceiver: STATE_ON", Toast.LENGTH_SHORT).show();
                         break;
                     case BluetoothAdapter.STATE_TURNING_OFF:
-                        Toast.makeText(context,
-                                "BTStateChangedBroadcastReceiver: STATE_TURNING_OFF",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "BTStateChangedBroadcastReceiver: STATE_TURNING_OFF", Toast.LENGTH_SHORT).show();
                         break;
                     case BluetoothAdapter.STATE_TURNING_ON:
-                        Toast.makeText(context,
-                                "BTStateChangedBroadcastReceiver: STATE_TURNING_ON",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "BTStateChangedBroadcastReceiver: STATE_TURNING_ON", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
+
+            if (Tags.ACTION_GATT_CONNECTED.equals(action)) {
+                connected = true;
+                updateConnectionState(connected);
+            }
+
+            if (Tags.ACTION_GATT_DISCONNECTED.equals(action)) {
+                connected = false;
+                updateConnectionState(false);
+            }
+        }
+    };
+
+    protected ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
         }
     };
 
@@ -177,6 +187,7 @@ public class DeviceFragment extends BaseFragment {
                 return true;
 
             case R.id.action_device_connect:
+
                 if (isBluetoothEnabled()) {
                     XiaomiGattCallback xiaomiGattCallback = new XiaomiGattCallback();
                     xiaomiGattCallback.connect(getContext(), bluetoothDevice.getAddress(), new Callback() {
@@ -289,6 +300,7 @@ public class DeviceFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onStart();
+        getActivity().bindService(new Intent(getActivity(), XiaomiService.class), serviceConnection, Context.BIND_AUTO_CREATE);
         getActivity().registerReceiver(mPairReceiver, createIntentFilter());
     }
 
@@ -303,6 +315,11 @@ public class DeviceFragment extends BaseFragment {
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         intentFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
+        intentFilter.addAction(Tags.ACTION_GATT_CONNECTED);
+        intentFilter.addAction(Tags.ACTION_GATT_DISCONNECTED);
+        intentFilter.addAction(Tags.ACTION_GATT_SERVICES_DISCOVERED);
+        intentFilter.addAction(Tags.ACTION_DATA_AVAILABLE);
+        intentFilter.addAction(Tags.ACTION_GATT_UPDATE_STATE);
         return intentFilter;
     }
 

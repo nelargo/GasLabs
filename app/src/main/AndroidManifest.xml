@@ -80,9 +80,9 @@
             android:exported="false" >
         </service>
         <service
-            android:name=".ui.bluetooth.connect.XiaomiConnectionService"
+            android:name=".ui.bluetooth.service.XiaomiService"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="false" >
         </service>
     </application>
 

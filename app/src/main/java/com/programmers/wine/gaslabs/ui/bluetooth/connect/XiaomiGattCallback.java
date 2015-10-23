@@ -18,19 +18,25 @@ public class XiaomiGattCallback extends BluetoothGattCallback implements XiaomiC
     private BluetoothGatt bluetoothGatt;
     private Callback callback;
     private BluetoothDevice bluetoothDevice;
+    private boolean connected = false;
 
     @Override
     public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
         super.onConnectionStateChange(gatt, status, newState);
+        this.bluetoothGatt = gatt;
         if (newState == BluetoothProfile.STATE_CONNECTED) {
             Logger.d("STATE_CONNECTED");
             gatt.discoverServices();
             // pair
             pairDevice(bluetoothDevice);
 
-            callback.onSuccess();
+            if (callback != null) {
+                callback.onSuccess();
+            }
         } else {
-            callback.onFailure();
+            if (callback != null) {
+                callback.onFailure();
+            }
         }
 
         if (newState == BluetoothProfile.STATE_DISCONNECTED) {
@@ -71,7 +77,6 @@ public class XiaomiGattCallback extends BluetoothGattCallback implements XiaomiC
     }
 
 
-
     /*
     * Xiaomi callbacks.
     */
@@ -88,12 +93,14 @@ public class XiaomiGattCallback extends BluetoothGattCallback implements XiaomiC
 
     @Override
     public void disconnect() {
-
+        if (bluetoothGatt != null) {
+            bluetoothGatt.disconnect();
+        }
     }
 
     @Override
     public boolean isDeviceConnected() {
-        return false;
+        return connected;
     }
 
     private boolean pairDevice(BluetoothDevice device) {
