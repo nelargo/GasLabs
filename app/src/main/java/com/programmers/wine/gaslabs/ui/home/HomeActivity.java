@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -15,8 +16,8 @@ import com.orhanobut.logger.Logger;
 import com.programmers.wine.gaslabs.R;
 import com.programmers.wine.gaslabs.ui.about.AboutActivity;
 import com.programmers.wine.gaslabs.ui.bluetooth.ScanDeviceFragment;
+import com.programmers.wine.gaslabs.ui.fit.FitFragment;
 import com.programmers.wine.gaslabs.ui.panel.PanelFragment;
-import com.programmers.wine.gaslabs.ui.service.ServiceFragment;
 import com.programmers.wine.gaslabs.util.BaseActivity;
 import com.programmers.wine.gaslabs.util.GlobalData;
 
@@ -28,14 +29,16 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
      */
     protected static final String SAVED_NAV_ITEM_ID = "SavedNavigationItemId";
     protected static final String TAG_FRAGMENT_PANEL = "TagFragmentPanel";
-    protected static final String TAG_FRAGMENT_SERVICE = "TagFragmentService";
     protected static final String TAG_FRAGMENT_BLUETOOTH = "TagFragmentBluetooth";
+    protected static final String TAG_FRAGMENT_FIT = "TagFragmentFit";
     protected DrawerLayout drawerLayout;
     protected NavigationView navigationView;
     /**
      * Id of selected navigation drawer item or id of default navigation drawer item (Panel).
      */
     protected int navItemId = R.id.drawer_item_panel;
+
+    private static final int REQUEST_OAUTH = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,13 +117,16 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         switch (navItemId) {
+
             case R.id.drawer_item_panel:
                 fragmentTransaction.replace(R.id.content, PanelFragment.newInstance(), TAG_FRAGMENT_PANEL);
                 break;
-            case R.id.drawer_item_service:
-                fragmentTransaction.replace(R.id.content, ServiceFragment.newInstance(), TAG_FRAGMENT_SERVICE);
+
+            case R.id.drawer_item_fit:
+                fragmentTransaction.replace(R.id.content, FitFragment.newInstance(), TAG_FRAGMENT_FIT);
                 break;
-            case R.id.drawer_item_bluethooth:
+
+            case R.id.drawer_item_bluetooth:
                 fragmentTransaction.replace(R.id.content, ScanDeviceFragment.newInstance(), TAG_FRAGMENT_BLUETOOTH);
                 break;
         }
@@ -131,5 +137,18 @@ public class HomeActivity extends BaseActivity implements NavigationView.OnNavig
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt(SAVED_NAV_ITEM_ID, navItemId);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_OAUTH) {
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_FIT);
+            if (fragment != null) {
+                fragment.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+
     }
 }

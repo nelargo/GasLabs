@@ -10,12 +10,13 @@
             android:id="@+id/drawer_item_panel"
             android:checked="true"
             android:title="@string/drawer_item_panel" />
+
         <item
-            android:id="@+id/drawer_item_service"
-            android:title="@string/drawer_item_service"
-            android:visible="false" />
+            android:id="@+id/drawer_item_fit"
+            android:title="@string/drawer_item_fit" />
+
         <item
-            android:id="@+id/drawer_item_bluethooth"
+            android:id="@+id/drawer_item_bluetooth"
             android:title="@string/drawer_item_bluetooth" />
 
     </group>

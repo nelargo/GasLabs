@@ -314,7 +314,9 @@ public class ScanDeviceFragment extends BaseFragment {
                     scanning = false;
                     bluetoothAdapter.stopLeScan(leScanCallback);
                     // prepare menu
-                    getActivity().supportInvalidateOptionsMenu();
+                    if (getActivity() != null) {
+                        getActivity().supportInvalidateOptionsMenu();
+                    }
                     // stop progress
                     progressBar.setVisibility(View.GONE);
 
